@@ -14,7 +14,6 @@ public class Program
             if (PressedKey == ConsoleKey.Q)
             {
                 callCenter.Stop();
-                break;
             }
             else if (PressedKey == ConsoleKey.C)
             {
