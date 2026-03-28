@@ -2,10 +2,10 @@
 
 public class Program
 {
-    public static void Main()
+    public static async Task Main()
     {
         CallCenter.CallCenter callCenter = CallCenterFactory.Create(5, 1);
-        _ = callCenter.Start();
+        Task callCenterTask = callCenter.Start();
         Random random = new Random();
         Console.WriteLine("Press 'c' to add a call or 'q' to quit.");
         while (true)
@@ -15,6 +15,8 @@ public class Program
             {
                 Console.WriteLine("Getting close from the end of the day ! Employees are finishing their ongoing call before going home ...");
                 callCenter.Stop();
+                await callCenterTask;
+                break;
 
             }
             else if (PressedKey == ConsoleKey.C)

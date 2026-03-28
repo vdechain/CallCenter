@@ -7,9 +7,7 @@ namespace CallCenter
         // FIFO queue without size limit
         private Channel<Call> _channel = Channel.CreateUnbounded<Call>();
         private CancellationTokenSource _cts = new();
-
         private List<Employee> _employees;
-
 
         public CallCenter(int nbWorkers, int nbManagers) {
             _employees = [.. Enumerable.Range(0, nbWorkers).Select(_ => new Employee()),
