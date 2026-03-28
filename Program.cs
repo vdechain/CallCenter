@@ -13,7 +13,9 @@ public class Program
             ConsoleKey PressedKey = Console.ReadKey(true).Key;
             if (PressedKey == ConsoleKey.Q)
             {
+                Console.WriteLine("Getting close from the end of the day ! Employees are finishing their ongoing call before going home ...");
                 callCenter.Stop();
+
             }
             else if (PressedKey == ConsoleKey.C)
             {
