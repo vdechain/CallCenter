@@ -30,7 +30,7 @@ namespace CallCenter
             _reader = reader;
             _cancellationToken = cancellationToken;
             _availability = availability;
-            _thread = new Thread(TimeToWork) { Name = Name, IsBackground = true };
+            _thread = new Thread(TimeToWork) { Name = Name};
             _thread.Start();
         }
 
