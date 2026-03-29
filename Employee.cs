@@ -9,7 +9,6 @@ namespace CallCenter
         public bool IsManager { get; }
         private string Name { get; }
         private ChannelReader<Call>? _reader;
-        private Thread? _thread;
         private CancellationToken _cancellationToken;
         private WorkerAvailability? _availability;
 
