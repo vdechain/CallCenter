@@ -6,8 +6,7 @@ namespace CallCenter
     {
         private static int _workerCounter = 0;
         private static int _managerCounter = 0;
-
-        private readonly bool _isManager = false;
+        public bool IsManager { get; }
         private string Name { get; }
         private ChannelReader<Call>? _reader;
         private Thread? _thread;
@@ -16,8 +15,8 @@ namespace CallCenter
 
         public Employee(bool isManager)
         {
-            _isManager = isManager;
-            Name = _isManager ? $"Manager{++_managerCounter}" : $"Worker{++_workerCounter}";
+            IsManager = isManager;
+            Name = IsManager ? $"Manager{++_managerCounter}" : $"Worker{++_workerCounter}";
         }
 
         public Employee()
@@ -25,28 +24,20 @@ namespace CallCenter
             Name = $"Worker{++_workerCounter}";
         }
 
-        public void Start(ChannelReader<Call> reader, CancellationToken cancellationToken = default, WorkerAvailability? availability = null)
+        public Task Start(ChannelReader<Call> reader, CancellationToken cancellationToken = default, WorkerAvailability? availability = null)
         {
             _reader = reader;
             _cancellationToken = cancellationToken;
             _availability = availability;
-            _thread = new Thread(TimeToWork) { Name = Name};
-            _thread.Start();
+            return Task.Run(TimeToWork);
         }
 
-        public void Join()
-        {
-            _thread?.Join();
-            //free resource ahead of GC
-            _thread = null;
-        }
-
-        private void TimeToWork()
+        private async void TimeToWork()
         {
             Console.WriteLine($"{Name} is waiting for calls...");
             try
             {
-                if (_isManager) ManagerLoop();
+                if (IsManager) ManagerLoop();
                 else WorkerLoop();
             }
             catch (OperationCanceledException)

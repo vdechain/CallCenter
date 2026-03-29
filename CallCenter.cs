@@ -32,8 +32,7 @@ namespace CallCenter
         private async Task TimeToWork() {
             Console.WriteLine("Day started !");
             var availability = new WorkerAvailability();
-            _employees.ForEach(e => e.Start(_channel.Reader, _cts.Token, availability));
-            await Task.Run(() => _employees.ForEach(e => e.Join()));
+            await Task.WhenAll(_employees.Select(e => e.Start(_channel.Reader, _cts.Token, availability)));
             Console.WriteLine("Day ended !");
         }
     }
